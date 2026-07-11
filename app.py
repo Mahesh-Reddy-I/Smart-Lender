@@ -1,96 +1,98 @@
 from flask import Flask, render_template, request
+from utils.predicator import predict_loan
 
 app = Flask(__name__)
 
 
-# -----------------------------
-# Home Page
-# -----------------------------
 @app.route("/")
 def home():
     return render_template("home.html")
 
 
-# -----------------------------
-# Loan Form
-# -----------------------------
 @app.route("/predict")
 def predict():
     return render_template("predict.html")
 
 
-# -----------------------------
-# Form Submission
-# -----------------------------
 @app.route("/submit", methods=["POST"])
 def submit():
 
-    # Read form values
-    name = request.form.get("name")
+    # -----------------------
+    # Read Form Data
+    # -----------------------
 
-    gender = request.form.get("gender")
-    married = request.form.get("married")
-    dependents = request.form.get("dependents")
+    gender = request.form["gender"]
+    married = request.form["married"]
+    dependents = request.form["dependents"]
+    education = request.form["education"]
+    self_employed = request.form["self_employed"]
 
-    education = request.form.get("education")
-    self_employed = request.form.get("self_employed")
+    applicant_income = float(request.form["applicant_income"])
+    coapplicant_income = float(request.form["coapplicant_income"])
+    loan_amount = float(request.form["loan_amount"])
+    loan_term = float(request.form["loan_term"])
+    credit_history = float(request.form["credit_history"])
+    property_area = request.form["property_area"]
 
-    applicant_income = request.form.get("applicant_income")
-    coapplicant_income = request.form.get("coapplicant_income")
+    # -----------------------
+    # Manual Encoding
+    # -----------------------
 
-    loan_amount = request.form.get("loan_amount")
-    loan_term = request.form.get("loan_term")
+    gender = 1 if gender == "Male" else 0
 
-    credit_history = request.form.get("credit_history")
+    married = 1 if married == "Yes" else 0
 
-    property_area = request.form.get("property_area")
+    education = 0 if education == "Graduate" else 1
 
-    # -----------------------------
-    # Print values (Testing)
-    # -----------------------------
+    self_employed = 1 if self_employed == "Yes" else 0
 
-    print("\n========== Loan Application ==========")
+    property_mapping = {
+        "Rural": 0,
+        "Semiurban": 1,
+        "Urban": 2
+    }
 
-    print("Name:", name)
-    print("Gender:", gender)
-    print("Married:", married)
-    print("Dependents:", dependents)
-    print("Education:", education)
-    print("Self Employed:", self_employed)
-    print("Applicant Income:", applicant_income)
-    print("Co-applicant Income:", coapplicant_income)
-    print("Loan Amount:", loan_amount)
-    print("Loan Term:", loan_term)
-    print("Credit History:", credit_history)
-    print("Property Area:", property_area)
+    property_area = property_mapping[property_area]
 
-    print("======================================\n")
+    dependents_mapping = {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3+": 3
+    }
 
-    # ----------------------------------------------------
-    # Dummy Prediction
-    # Replace this after receiving the trained ML model
-    # ----------------------------------------------------
+    dependents = dependents_mapping[dependents]
 
-    prediction = "Loan Approved"
+    # -----------------------
+    # Feature Order
+    # -----------------------
 
-    # ----------------------------------------------------
-    # Future ML Integration
-    #
-    # from utils.predictor import predict_loan
-    #
-    # features = [...]
-    #
-    # prediction = predict_loan(features)
-    # ----------------------------------------------------
+    features = [
+        gender,
+        married,
+        dependents,
+        education,
+        self_employed,
+        applicant_income,
+        coapplicant_income,
+        loan_amount,
+        loan_term,
+        credit_history,
+        property_area
+    ]
+
+    prediction = predict_loan(features)
+
+    if prediction == 1:
+        result = "Loan Approved ✅"
+    else:
+        result = "Loan Rejected ❌"
 
     return render_template(
         "submit.html",
-        prediction=prediction
+        prediction=result
     )
 
 
-# -----------------------------
-# Run Flask
-# -----------------------------
 if __name__ == "__main__":
     app.run(debug=True)

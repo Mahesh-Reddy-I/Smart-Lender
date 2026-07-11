@@ -1,27 +1,37 @@
+import os
 import joblib
 import numpy as np
 
-model = joblib.load("models/loan_model.pkl")
+# Base directory of project
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Uncomment these only if your teammates provide them
-# scaler = joblib.load("models/scaler.pkl")
-# encoder = joblib.load("models/encoder.pkl")
+MODEL_PATH = os.path.join(BASE_DIR, "models", "best_loan_model.pkl")
+SCALER_PATH = os.path.join(BASE_DIR, "models", "scaler.pkl")
+
+# Load once when application starts
+model = joblib.load(MODEL_PATH)
+scaler = joblib.load(SCALER_PATH)
 
 
 def predict_loan(features):
     """
-    features: list of numeric values in the same order
-              used during model training
+    Parameters
+    ----------
+    features : list
+        List of 11 features in the exact order used during training.
+
+    Returns
+    -------
+    int
+        0 -> Loan Rejected
+        1 -> Loan Approved
     """
 
     data = np.array(features).reshape(1, -1)
 
-    # If a scaler is required:
-    # data = scaler.transform(data)
+    # Scale features
+    data = scaler.transform(data)
 
     prediction = model.predict(data)
 
-    if prediction[0] == 1:
-        return "Loan Approved"
-
-    return "Loan Rejected"
+    return int(prediction[0])
