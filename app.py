@@ -18,6 +18,24 @@ def predict():
 def submit():
 
     # -----------------------
+    # Validate Required Fields Present
+    # -----------------------
+
+    required_fields = [
+        "gender", "married", "dependents", "education", "self_employed",
+        "applicant_income", "coapplicant_income", "loan_amount",
+        "loan_term", "credit_history", "property_area",
+    ]
+
+    missing_fields = [f for f in required_fields if not request.form.get(f)]
+
+    if missing_fields:
+        return render_template(
+            "predict.html",
+            error=f"Please fill in all required fields. Missing: {', '.join(missing_fields)}."
+        ), 400
+
+    # -----------------------
     # Read Form Data
     # -----------------------
 
@@ -27,11 +45,22 @@ def submit():
     education = request.form["education"]
     self_employed = request.form["self_employed"]
 
-    applicant_income = float(request.form["applicant_income"])
-    coapplicant_income = float(request.form["coapplicant_income"])
-    loan_amount = float(request.form["loan_amount"])
-    loan_term = float(request.form["loan_term"])
-    credit_history = float(request.form["credit_history"])
+    # -----------------------
+    # Validate Numeric Fields
+    # -----------------------
+
+    try:
+        applicant_income = float(request.form["applicant_income"])
+        coapplicant_income = float(request.form["coapplicant_income"])
+        loan_amount = float(request.form["loan_amount"])
+        loan_term = float(request.form["loan_term"])
+        credit_history = float(request.form["credit_history"])
+    except ValueError:
+        return render_template(
+            "predict.html",
+            error="Income, loan amount, loan term, and credit history must be valid numbers."
+        ), 400
+
     property_area = request.form["property_area"]
 
     # -----------------------

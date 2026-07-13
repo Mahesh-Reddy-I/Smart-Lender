@@ -78,6 +78,12 @@
 
         <div class="container">
 
+            {% if error %}
+            <div style="background:#FDEDEC; border:1px solid #E74C3C; color:#943126; padding:14px 18px; border-radius:8px; margin-bottom:20px;">
+                <strong>Please check your submission:</strong> {{ error }}
+            </div>
+            {% endif %}
+
             <form
                 class="loan-form"
                 action="{{ url_for('submit') }}"
