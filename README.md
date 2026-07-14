@@ -67,7 +67,6 @@ This project was built as part of the **SmartBridge Virtual Internship Program**
 | 4 | Chethan S | Backend Developer (Flask, API) | [@chethan](https://github.com/chethanstack) |
 | 5 | Lohith Sai K | Frontend Developer (UI/UX) | [@lohithsai](https://github.com/lohithsai1115-beep) |
 
-> ✏️ Replace the placeholders above with actual team member names and GitHub handles before pushing.
 
 ## ✨ Features
 
