@@ -230,7 +230,7 @@ The application was tested end-to-end against a **live, running instance** (not 
 | UAT — Business Scenario 1 (low-risk approval) | ✅ Pass |
 | UAT — Business Scenario 2 (high-risk rejection) | ✅ Pass |
 
-**Known open defect:** `/submit` currently has no server-side input validation — a missing or malformed field returns an unhandled HTTP 500 instead of a friendly error. Tracked as the top-priority fix (see [Known Limitations](#known-limitations)).
+**Known open defect:** `/submit` currently has no server-side input validation — a missing or malformed field returns an unhandled HTTP 500 instead of a friendly error. Tracked as the top-priority fix (see [Known Limitations](#%EF%B8%8F-known-limitations)).
 
 ## 🖼️ Screenshots
 
