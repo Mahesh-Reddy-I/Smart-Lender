@@ -14,6 +14,7 @@
 
 - [About the Project](#-about-the-project)
 - [Problem Statement](#-problem-statement)
+- [Demo Video](#-demo-video)
 - [Team](#-team)
 - [Features](#-features)
 - [Tech Stack](#%EF%B8%8F-tech-stack)
@@ -49,6 +50,10 @@ The deployed model was selected by training and comparing **four classification 
 - **Credit officers** manually re-check the same categories of information for every file, which does not scale during high-volume periods.
 
 Smart Lender addresses both by returning a same-request, evidence-based prediction.
+
+## 🎥 Demo Video
+
+▶️ [Watch Demo Video](https://drive.google.com/file/d/19EHjdzlgfRVXdFaL9ZMUN6HKkgOegaeh/view?usp=sharing)
 
 ## 👥 Team
 
