@@ -18,24 +18,6 @@ def predict():
 def submit():
 
     # -----------------------
-    # Validate Required Fields Present
-    # -----------------------
-
-    required_fields = [
-        "gender", "married", "dependents", "education", "self_employed",
-        "applicant_income", "coapplicant_income", "loan_amount",
-        "loan_term", "credit_history", "property_area",
-    ]
-
-    missing_fields = [f for f in required_fields if not request.form.get(f)]
-
-    if missing_fields:
-        return render_template(
-            "predict.html",
-            error=f"Please fill in all required fields. Missing: {', '.join(missing_fields)}."
-        ), 400
-
-    # -----------------------
     # Read Form Data
     # -----------------------
 
@@ -45,22 +27,11 @@ def submit():
     education = request.form["education"]
     self_employed = request.form["self_employed"]
 
-    # -----------------------
-    # Validate Numeric Fields
-    # -----------------------
-
-    try:
-        applicant_income = float(request.form["applicant_income"])
-        coapplicant_income = float(request.form["coapplicant_income"])
-        loan_amount = float(request.form["loan_amount"])
-        loan_term = float(request.form["loan_term"])
-        credit_history = float(request.form["credit_history"])
-    except ValueError:
-        return render_template(
-            "predict.html",
-            error="Income, loan amount, loan term, and credit history must be valid numbers."
-        ), 400
-
+    applicant_income = float(request.form["applicant_income"])
+    coapplicant_income = float(request.form["coapplicant_income"])
+    loan_amount = float(request.form["loan_amount"])
+    loan_term = float(request.form["loan_term"])
+    credit_history = float(request.form["credit_history"])
     property_area = request.form["property_area"]
 
     # -----------------------
@@ -68,11 +39,8 @@ def submit():
     # -----------------------
 
     gender = 1 if gender == "Male" else 0
-
     married = 1 if married == "Yes" else 0
-
     education = 0 if education == "Graduate" else 1
-
     self_employed = 1 if self_employed == "Yes" else 0
 
     property_mapping = {
@@ -113,13 +81,16 @@ def submit():
     prediction = predict_loan(features)
 
     if prediction == 1:
-        result = "Loan Approved ✅"
+        result = "Loan Approved"
+        status = "approved"
     else:
-        result = "Loan Rejected ❌"
+        result = "Loan Rejected"
+        status = "rejected"
 
     return render_template(
         "submit.html",
-        prediction=result
+        prediction=result,
+        status=status
     )
 
 

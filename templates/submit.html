@@ -63,59 +63,43 @@
 
             <div class="result-card">
 
-                {% if prediction == "Loan Approved" %}
+                {% if status == "approved" %}
 
                 <div class="result-icon success">
-
                     <i class="fa-solid fa-circle-check"></i>
-
                 </div>
 
                 <h1 class="success-text">
-
                     Congratulations!
-
                 </h1>
 
                 <h2>
-
                     {{ prediction }}
-
                 </h2>
 
                 <p>
-
                     Based on the submitted information,
                     the applicant is eligible for loan approval.
-
                 </p>
 
                 {% else %}
 
                 <div class="result-icon rejected">
-
                     <i class="fa-solid fa-circle-xmark"></i>
-
                 </div>
 
                 <h1 class="danger-text">
-
                     Application Result
-
                 </h1>
 
                 <h2>
-
                     {{ prediction }}
-
                 </h2>
 
                 <p>
-
                     Based on the submitted information,
                     the application is currently not eligible
                     for loan approval.
-
                 </p>
 
                 {% endif %}
@@ -131,9 +115,7 @@
                             <span>Applicant</span>
 
                             <strong>
-
-                                {{ request.form.get('name','Applicant') }}
-
+                                {{ request.form.get('name', 'Applicant') }}
                             </strong>
 
                         </div>
@@ -149,9 +131,7 @@
                             <span>Loan Amount</span>
 
                             <strong>
-
-                                ₹ {{ request.form.get('loan_amount','0') }}
-
+                                ₹ {{ request.form.get('loan_amount', '0') }}
                             </strong>
 
                         </div>
@@ -169,9 +149,9 @@
                             <strong>
 
                                 {% if request.form.get('credit_history') == '1' %}
-                                Good
+                                    Good
                                 {% else %}
-                                Poor
+                                    Poor
                                 {% endif %}
 
                             </strong>
@@ -189,9 +169,7 @@
                             <span>Property Area</span>
 
                             <strong>
-
                                 {{ request.form.get('property_area') }}
-
                             </strong>
 
                         </div>
@@ -235,10 +213,8 @@
         <div class="container">
 
             <p>
-
                 © 2026 Smart Lender |
                 Intelligent Loan Prediction System
-
             </p>
 
         </div>
